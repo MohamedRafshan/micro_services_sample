@@ -18,7 +18,11 @@
 
 const express = require('express');
 const Consul = require('consul'); // Correctly import Consul
+const userRoutes = require('./routes/userRoutes');
+const chatRoutes = require('./chatbot/server');
 const app = express();
+
+app.use(express.json());
 
 const SERVICE_NAME = 'service1';
 const SERVICE_ID = 'service1-instance1';
@@ -37,10 +41,25 @@ consul.agent.service.register({
   console.log(`${SERVICE_NAME} registered with Consul at localhost:${PORT}`);
 });
 
+// app.use((req, res, next) => {
+//   console.log(`Request URL: ${req.originalUrl}`);
+//   next(); // Pass control to the next middleware or route handler
+// });
+
+
+// app.use((err, req, res, next) => {
+//   console.error(err.stack);
+//   res.status(500).send('Something went wrong!');
+// });
+
 // Service Routes
-app.get('/', (req, res) => {
-  res.send('Hello from Service 1');
-});
+// app.get('/', (req, res) => {
+//   res.send('Hello from Service 1');
+// });
+
+app.use('/', userRoutes);
+
+app.use('/chat', chatRoutes);
 
 // Deregister service when the process stops
 process.on('SIGINT', () => {
