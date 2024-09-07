@@ -20,7 +20,7 @@ const Consul = require('consul'); // Correctly import Consul
 const app = express();
 
 const SERVICE_NAME = 'service2';
-const SERVICE_ID = 'service1-instance2';
+const SERVICE_ID = 'service2-instance2';
 const PORT = 8080;
 
 const consul = new Consul(); // Instantiate Consul correctly
